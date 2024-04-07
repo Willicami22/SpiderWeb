@@ -61,48 +61,49 @@
     }
 
     public SpiderWeb(int numStrands,int favorite, int bridges[][]){
-        
-        diameter = 600;
-        strands = new ArrayList<>();
-        mapSpots= new HashMap<>();
-        mapBridge=new HashMap<>();
-        spider= new Spider();
-        
-        this.numStrands=numStrands;
-        xCenter=515;
-        yCenter=413;
-        Color="black";
-        isVisible=false;
-        lastAction=true;
-        
-        double angle=this.angle/numStrands;
-        
-        for (int i = 0; i<numStrands; i++) {
-            double angle1 =angle*i;
+        lastAction = false;
+        if(numStrands > 0 && favorite > 0){
+            diameter = 600;
+            strands = new ArrayList<>();
+            mapSpots= new HashMap<>();
+            mapBridge=new HashMap<>();
+            spider= new Spider();
             
-            Strand strand = new Strand(angle1,diameter/2);
-             
-            strands.add(strand);
+            this.numStrands=numStrands;
+            xCenter=515;
+            yCenter=413;
+            Color="black";
+            isVisible=false;
+            lastAction=true;
             
-        }
-        
-        ArrayList<String> colors = new ArrayList<>();
-        colors.add("red"); colors.add("black"); colors.add("blue"); colors.add("yellow"); colors.add("green");
-        colors.add("magenta"); colors.add("pink"); colors.add("orange");colors.add("gray"); colors.add("cyan");
-        
-        for (int[] b : bridges){
+            double angle=this.angle/numStrands;
             
-
+            for (int i = 0; i<numStrands; i++) {
+                double angle1 =angle*i;
+                
+                Strand strand = new Strand(angle1,diameter/2);
+                 
+                strands.add(strand);
+                
+            }
+            
+            ArrayList<String> colors = new ArrayList<>();
+            colors.add("red"); colors.add("black"); colors.add("blue"); colors.add("yellow"); colors.add("green");
+            colors.add("magenta"); colors.add("pink"); colors.add("orange");colors.add("gray"); colors.add("cyan");
+            
+            for (int[] b : bridges){
+                
+    
+                Random random = new Random(); int randomIndex = random.nextInt(colors.size()); String color = colors.get(randomIndex);
+                colors.remove(randomIndex);
+                addBridge(color, b[0],b[1]);
+                
+            }
+            
             Random random = new Random(); int randomIndex = random.nextInt(colors.size()); String color = colors.get(randomIndex);
             colors.remove(randomIndex);
-            addBridge(color, b[0],b[1]);
-            
+            addSpot(color, favorite);
         }
-        
-        Random random = new Random(); int randomIndex = random.nextInt(colors.size()); String color = colors.get(randomIndex);
-        colors.remove(randomIndex);
-        addSpot(color, favorite);
-        
     }
 
         public void makeVisible(){
@@ -365,20 +366,20 @@
                     int strand=spider.getCurrentStrand();
                     double angle1 = Math.toRadians((strand-1)*angle);
                         
-                    if(b.getFirstStrand()==strand && b.getDistance()>distance){
-                        double angle2= b.getAngle();
-                        spider.moveSpider(angle1, b.getDistance() - distance);
-                        spider.locateSpider(angle2);
-                        spider.moveSpider(angle2, b.getLarge());
-                        distance = b.getDistance();
-                        if (strand!=numStrands){
-                            spider.changeCurrentStrand(strand+1);
+                        if(b.getFirstStrand()==strand && b.getDistance()>distance){
+                            double angle2= b.getAngle();
+                            spider.moveSpider(angle1, b.getDistance() - distance);
+                            spider.locateSpider(angle2);
+                            spider.moveSpider(angle2, b.getLarge());
+                            distance = b.getDistance();
+                            if (strand!=numStrands){
+                                spider.changeCurrentStrand(strand+1);
+                            }
+                            else{
+                                spider.changeCurrentStrand(1);
+                            }
+                                
                         }
-                        else{
-                            spider.changeCurrentStrand(1);
-                        }
-                            
-                    }
                 }
                 
                 spider.locateSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle));

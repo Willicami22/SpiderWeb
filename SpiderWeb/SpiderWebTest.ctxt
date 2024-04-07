@@ -7,4 +7,20 @@ comment2.params=
 comment2.target=void\ shouldCreateSpiderWeb()
 comment3.params=
 comment3.target=void\ shouldNotCreateSpiderWeb()
+<<<<<<< HEAD
 numComments=4
+=======
+comment4.params=
+comment4.target=void\ shouldMakeVisible()
+comment5.params=
+comment5.target=void\ shouldNotMakeVisible()
+comment6.params=
+comment6.target=void\ shouldMakeInvisible()
+comment7.params=
+comment7.target=void\ shouldNotMakeInvisible()
+comment8.params=
+comment8.target=void\ shouldAddBridge()
+comment9.params=
+comment9.target=void\ shouldNotAddBridge()
+numComments=10
+>>>>>>> 33375cc8c715182370850d45a60b83b5bd66012d
