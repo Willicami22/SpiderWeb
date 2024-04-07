@@ -31,28 +31,31 @@
     private boolean lastAction;
     
     public SpiderWeb(int diameter, int numStrands){
-        this.diameter=diameter*10;
-        strands = new ArrayList<>();
-        mapSpots= new HashMap<>();
-        mapBridge=new HashMap<>();
-        spider= new Spider();
-        
-        this.numStrands=numStrands;
-        xCenter=515;
-        yCenter=413;
-        Color="black"; 
-        isVisible=false;
-        lastAction=true;
-        
-        double angle = this.angle/numStrands;
-        
-        for (int i = 0; i<numStrands; i++) {
-            double angle1 =angle*i;
+        lastAction=false;
+        if(diameter > 0 && numStrands > 0){
+            this.diameter=diameter*10;
+            strands = new ArrayList<>();
+            mapSpots= new HashMap<>();
+            mapBridge=new HashMap<>();
+            spider= new Spider();
             
-            Strand strand = new Strand(angle1,(this.diameter)/2);
+            this.numStrands=numStrands;
+            xCenter=515;
+            yCenter=413;
+            Color="black"; 
+            isVisible=false;
+            lastAction=true;
             
-            strands.add(strand);
+            double angle = this.angle/numStrands;
             
+            for (int i = 0; i<numStrands; i++) {
+                double angle1 =angle*i;
+                
+                Strand strand = new Strand(angle1,(this.diameter)/2);
+                
+                strands.add(strand);
+                
+            }
         }
 
     }
@@ -99,7 +102,6 @@
         Random random = new Random(); int randomIndex = random.nextInt(colors.size()); String color = colors.get(randomIndex);
         colors.remove(randomIndex);
         addSpot(color, favorite);
-        
         
     }
 
@@ -479,4 +481,7 @@
         JOptionPane.showMessageDialog(null, "The simulation has ended.");
     }
     
+    public boolean ok(){
+        return lastAction;
+    }
 }
