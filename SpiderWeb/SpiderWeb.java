@@ -341,16 +341,18 @@
     }
     
     public void spiderSit(int strand){
+        lastAction=false;
+        if (strand<=0 || strand>numStrands){ 
+            double angle=this.angle/numStrands;
+            double angle1 = Math.toRadians((strand-1)*angle);
         
-        double angle=this.angle/numStrands;
-        double angle1 = Math.toRadians((strand-1)*angle);
+            spider.returnToCenter();
+            spider.locateSpider(angle1);
         
-        spider.returnToCenter();
-        spider.locateSpider(angle1);
+            spider.changeCurrentStrand(strand);
+            lastAction=true;
         
-        spider.changeCurrentStrand(strand);
-        lastAction=true;
-        
+        }
     }
     
     public void spiderWalk(boolean advance){
