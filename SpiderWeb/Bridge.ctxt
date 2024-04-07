@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=Bridge
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Puente\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=xStart\ yStart\ xEnd\ yEnd\ firstStrand\ secondStrand\ color\ distance
+comment1.target=Bridge(double,\ double,\ double,\ double,\ int,\ int,\ java.lang.String,\ double)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Bridge\r\n
+comment10.params=
+comment10.target=double\ getAngle()
+comment2.params=
+comment2.target=void\ makeVisible()
+comment3.params=
+comment3.target=void\ makeInvisible()
+comment4.params=
+comment4.target=int\ getFirstStrand()
+comment5.params=
+comment5.target=int\ getSecondStrand()
+comment6.params=
+comment6.target=double\ getDistance()
+comment7.params=xStart\ yStart\ xEnd\ yEnd
+comment7.target=void\ changePoints(double,\ double,\ double,\ double)
+comment8.params=distance
+comment8.target=void\ changeDistance(double)
+comment9.params=
+comment9.target=double\ getLarge()
+numComments=11

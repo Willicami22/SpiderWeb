@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=Spider
+comment1.params=
+comment1.target=Spider()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Spider\r\n
+comment10.params=distance
+comment10.target=void\ changeDistanceToCenter(double)
+comment2.params=
+comment2.target=void\ makeVisible()
+comment2.text=\r\n\ Makes\ visible\ the\ spider.\r\n\ @param\ Void.\r\n\ @return\ Void.\r\n
+comment3.params=
+comment3.target=void\ makeInvisible()
+comment3.text=\r\n\ Makes\ invisible\ the\ spider.\r\n\ @param\ Void.\r\n\ @return\ Void.\r\n
+comment4.params=
+comment4.target=void\ returnToCenter()
+comment5.params=angle
+comment5.target=void\ locateSpider(double)
+comment6.params=
+comment6.target=int\ getCurrentStrand()
+comment7.params=
+comment7.target=double\ getDistanceToCenter()
+comment8.params=strand
+comment8.target=void\ changeCurrentStrand(int)
+comment9.params=angle\ distance
+comment9.target=void\ moveSpider(double,\ double)
+numComments=11
