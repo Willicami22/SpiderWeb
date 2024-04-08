@@ -466,7 +466,7 @@
             
         }   
         
-    public int[] spiderLasthPath(){
+    public int[] spiderLastPath(){
         int[] last = new int[lastPath.size()];
         lastAction=false;
         if(lastPath.size()>0){

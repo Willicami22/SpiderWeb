@@ -149,7 +149,6 @@ import java.util.ArrayList;
         locateSpider(angle);
     }      
      
-    }
     
     public void reestartLastPath(){
         lastPath=new ArrayList<>();

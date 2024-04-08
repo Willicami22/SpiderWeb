@@ -386,8 +386,8 @@ public class SpiderWebTest{
     @Test
     public void spiderShouldNotWalk(){
         web0.spiderSit(10);
-        web.spiderWalk(false);
-        assertFalse(web.ok());
+        web0.spiderWalk(false);
+        assertFalse(web0.ok());
         
         web.spiderWalk(true);
         assertFalse(web.ok());
@@ -395,7 +395,26 @@ public class SpiderWebTest{
     }
     
     @Test
-    public void lastPath(){
+    public void shouldShowSpiderLastPath(){
+        web.spiderSit(2);
+        web.spiderWalk(true);
+        web.spiderLastPath();
+        assertTrue(web.ok());
+        
+        web.spiderSit(9);
+        web.spiderWalk(true);
+        web.spiderLastPath();
+        assertTrue(web.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotShowSpiderLastPath(){
+        web.spiderLastPath();
+        assertFalse(web.ok());
+        
+        web0.spiderSit(2);
+        assertFalse(web0.ok());
         
     }
 } 
