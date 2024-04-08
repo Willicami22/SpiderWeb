@@ -104,4 +104,8 @@ public class Bridge
         return yEnd;
     
     }
+    
+    public String getColor(){
+        return color;
+    }
 }

@@ -147,9 +147,7 @@ import java.util.ArrayList;
     public void transportSpider(double angle,double xPosition, double yPosition){
         body.changePosition(xPosition,yPosition);
         locateSpider(angle);
-    }      
-     
-    
+    }       
     public void reestartLastPath(){
         lastPath=new ArrayList<>();
     }
