@@ -52,13 +52,9 @@ comment30.target=void\ spiderShouldWalk()
 comment31.params=
 comment31.target=void\ spiderShouldNotWalk()
 comment32.params=
-<<<<<<< HEAD
 comment32.target=void\ shouldShowSpiderLastPath()
 comment33.params=
 comment33.target=void\ shouldNotShowSpiderLastPath()
-=======
-comment32.target=void\ lastPath()
->>>>>>> 96cf4bfa45cd7be676c6df5212e77154e48888f2
 comment4.params=
 comment4.target=void\ shouldMakeVisible()
 comment5.params=
@@ -71,8 +67,4 @@ comment8.params=
 comment8.target=void\ shouldAddBridge()
 comment9.params=
 comment9.target=void\ shouldNotAddBridge()
-<<<<<<< HEAD
 numComments=34
-=======
-numComments=33
->>>>>>> 96cf4bfa45cd7be676c6df5212e77154e48888f2
