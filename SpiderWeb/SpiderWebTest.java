@@ -280,7 +280,7 @@ public class SpiderWebTest{
     }
     
     @Test
-    public void shouldReturnBridgeKeys(){
+    public void shouldReturnBridgeColor(){
         web0.addBridge("red", 100, 7);
         web0.addBridge("blue", 200, 6);
         web0.bridges();
@@ -292,7 +292,7 @@ public class SpiderWebTest{
     }
     
     @Test
-    public void shouldNotReturnBridgeKeys(){
+    public void shouldNotReturnBridgeColor(){
         web0.bridges();
         assertFalse(web0.ok());
         
@@ -311,6 +311,91 @@ public class SpiderWebTest{
         web0.addBridge("blue", 130, 6);
         web0.bridge("blue");
         assertTrue(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotReturnBridgeStrands(){
+        web0.bridge("pink");
+        assertFalse(web0.ok());
+        
+        web0.addBridge("blue", 130, 6);
+        web0.bridge("orange");
+        assertFalse(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldReturnSpotsColor(){
+        web.spots();
+        assertTrue(web.ok());
+        
+        web0.addSpot("green", 7);
+        web0.spots();
+        assertTrue(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotReturnSpotsColor(){
+        web0.spots();
+        assertFalse(web0.ok());
+        
+        SpiderWeb web1 = new SpiderWeb(20, 20);
+        web1.spots();
+        assertFalse(web1.ok());
+        
+    }
+    
+    @Test
+    public void shouldReturnSpotsStrand(){
+        web.addSpot("pink", 8);
+        web.spot("pink");
+        assertTrue(web.ok());
+        
+        web0.addSpot("blue", 10);
+        web0.spot("blue");
+        assertTrue(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotReturnSpotsStrand(){
+        web0.spot("blue");
+        assertFalse(web0.ok());
+        
+        SpiderWeb web1 = new SpiderWeb(20, 20);
+        web1.spot("orange");
+        assertFalse(web1.ok());
+        
+    }
+    
+    @Test
+    public void spiderShouldWalk(){
+        web.spiderSit(2);
+        web.spiderWalk(true);
+        assertTrue(web.ok());
+        
+        web0.spiderSit(10);
+        web.spiderWalk(true);
+        web.spiderWalk(false);
+        assertTrue(web.ok());
+        
+    }
+    
+    @Test
+    public void spiderShouldNotWalk(){
+        web0.spiderSit(10);
+        web.spiderWalk(false);
+        assertFalse(web.ok());
+        
+        web.spiderWalk(true);
+        assertFalse(web.ok());
+        
+    }
+    
+    @Test
+    public void lastPath(){
         
     }
 } 

@@ -144,16 +144,5 @@ import java.util.ArrayList;
     public void transportSpider(double angle,double xPosition, double yPosition){
         body.changePosition(xPosition,yPosition);
         locateSpider(angle);
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    
-    
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
-=======
-    
-    
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
-        
+    }       
 } 
