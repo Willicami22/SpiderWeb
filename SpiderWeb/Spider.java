@@ -62,7 +62,6 @@ import java.util.ArrayList;
     }
     
     public void locateSpider(double angle) {
-        makeInvisible();
         
         
         double deltaX1 = leftEye.getX() - face.getX();
@@ -84,7 +83,7 @@ import java.util.ArrayList;
         leftEye.changePosition(face.getX()+distance1*Math.cos(angle1),face.getY()+distance1*Math.sin(-angle1)); 
         rightEye.changePosition(face.getX()+distance2*Math.cos(angle2),face.getY()+distance2*Math.sin(-angle2));
         
-        makeVisible();
+        
     }
     
 
@@ -113,14 +112,14 @@ import java.util.ArrayList;
         double Xdistance = distance*Math.cos(angle1);
         double Ydistance = distance*Math.sin(angle1);
 
-        deltax=Math.cos(angle1);
-        deltay=-Math.sin(angle1); 
+        deltax=Math.cos(angle1)*2;
+        deltay=-Math.sin(angle1)*2; 
         
         if (distance<0){
             distance=-distance;
         }
 
-        for(int i = 0; i < distance; i++){
+        for(int i = 0; i < distance/2; i++){
             double xPositionFace = deltax+face.getX();
             double yPositionFace = deltay+face.getY();
             double xPositionBody = deltax+body.getX();
@@ -141,6 +140,11 @@ import java.util.ArrayList;
     
     public void changeDistanceToCenter(double distance){
         distanceToCenter= distance;
+    }
+    
+    public void transportSpider(double angle,double xPosition, double yPosition){
+        body.changePosition(xPosition,yPosition);
+        locateSpider(angle);
     }
         
 } 
