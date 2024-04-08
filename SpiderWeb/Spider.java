@@ -8,7 +8,7 @@ import java.util.ArrayList;
     private Circle leftEye;
     private Circle rightEye;
     private boolean isVisible;
-    
+    private ArrayList<Circle> lastPath;
     private int currentStrand; 
     private double distanceToCenter;
     private double angle;
@@ -21,7 +21,8 @@ import java.util.ArrayList;
         body = new Circle( 500,400,"black"); body.changeSize(30);
         face = new Circle(505,385,"black"); face.changeSize(20);
         leftEye = new Circle(509,390,"red"); leftEye.changeSize(3);
-        rightEye = new Circle(519,390,"red"); rightEye.changeSize(3);        
+        rightEye = new Circle(519,390,"red"); rightEye.changeSize(3);    
+        lastPath=new ArrayList<>();
         currentStrand = 0;
         distanceToCenter=0;
         angle=90;
@@ -132,6 +133,8 @@ import java.util.ArrayList;
             leftEye.changePosition(xPositionLeftEye,yPositionLeftEye);
             rightEye.changePosition(xPositionRightEye,yPositionRightEye);
             
+            lastPath.add(new Circle(xPositionBody,yPositionBody,"red"));
+            
         }
         
         distanceToCenter=distance;
@@ -145,15 +148,23 @@ import java.util.ArrayList;
         body.changePosition(xPosition,yPosition);
         locateSpider(angle);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     
+    public void reestartLastPath(){
+        lastPath=new ArrayList<>();
+    }
     
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
-=======
+    public void showLastPath(){
+        for(Circle l : lastPath){
+            l.makeVisible();
+        }
+    }
     
-    
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
+    public void eraseLastPath(){
+         
+        for(Circle l : lastPath){
+            l.makeInvisible();
+        }
+    }
+
         
 } 
