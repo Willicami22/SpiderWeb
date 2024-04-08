@@ -345,33 +345,8 @@
     public void spiderSit(int strand){
         lastAction=false;
         if (strand>0 && strand<=numStrands){ 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            double angle=this.angle/numStrands;
-=======
             spider.makeInvisible();
             double angle=this.angle     /numStrands;
->>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
-=======
-            spider.makeInvisible();
-            double angle=this.angle     /numStrands;
->>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
-=======
-            spider.makeInvisible();
-            double angle=this.angle     /numStrands;
->>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
-=======
-            spider.makeInvisible();
-            double angle=this.angle     /numStrands;
->>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
-=======
-    
-            spider.makeInvisible();
-            double angle=this.angle     /numStrands;
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
             double angle1 = Math.toRadians((strand-1)*angle);
         
             spider.returnToCenter();
@@ -392,10 +367,7 @@
             double distance= spider.getDistanceToCenter();
             double angle= this.angle/numStrands;
             if (advance && distance==0){
-<<<<<<< HEAD
-=======
                 lastPath = new ArrayList<>();
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
                 int cont=0;
                 while(cont<mapBridge.size()){  
                     cont=0;
@@ -406,25 +378,6 @@
                             
                             if((b.getFirstStrand()==strand || b.getSecondStrand()==strand) && b.getDistance()>distance ){
                                 spider.moveSpider(angle1, b.getDistance() - distance);
-<<<<<<< HEAD
-                                
-                                if (b.getFirstStrand()==strand){
-                                    
-                                    double newX= b.getxEnd();
-                                    double newY= b.getyEnd();
-                                    spider.transportSpider(Math.toRadians((strand)*angle),newX,newY);
-                                    spider.changeCurrentStrand(b.getSecondStrand());
-                
-                                }
-                                else{
-                                    double newX= b.getxStart();
-                                    double newY= b.getyStart();
-                                    spider.transportSpider(Math.toRadians((strand-2)*angle),newX,newY);
-                                    spider.changeCurrentStrand(b.getFirstStrand());
-                                    
-                                }
-                                
-=======
                                 lastPath.add(strand);
                                 if (b.getFirstStrand()==strand){
                                     
@@ -442,7 +395,6 @@
                                     
                                 }
                                 
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
                                 distance = b.getDistance();
                                 break;
                                     
@@ -462,10 +414,7 @@
             }
             else if(!advance && distance == (diameter/2)){
                 int cont=0;
-<<<<<<< HEAD
-=======
                 lastPath = new ArrayList<>();
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
                 while(cont<mapBridge.size()){  
                     cont=0;
                     for (Bridge b : mapBridge.values()){
@@ -475,12 +424,8 @@
                             
                             if((b.getFirstStrand()==strand || b.getSecondStrand()==strand) && b.getDistance()<distance ){
                                 spider.moveSpider(angle1, b.getDistance() - distance);
-<<<<<<< HEAD
-                                
-=======
                                 lastPath.add(strand);
 
->>>>>>> 828779c520672b8322389ee28c8426531928fdb7
                                 if (b.getFirstStrand()==strand){
                                     
                                     double newX= b.getxEnd();
@@ -514,8 +459,7 @@
                 
             }
             
-        }
-    
+        }   
     public int[] spiderLasthPath(){
         int[] last = new int[lastPath.size()];
 
