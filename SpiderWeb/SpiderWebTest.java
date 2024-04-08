@@ -410,11 +410,41 @@ public class SpiderWebTest{
     
     @Test
     public void shouldNotShowSpiderLastPath(){
+        
         web.spiderLastPath();
         assertFalse(web.ok());
         
         web0.spiderSit(2);
+        web0.spiderLastPath();
         assertFalse(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldShowUnusedBridges(){
+        web.spiderSit(2);
+        web.spiderWalk(true);
+        web.unusedBridge();
+        assertTrue(web.ok());
+        
+        web.spiderSit(9);
+        web.spiderWalk(true);
+        web.spiderWalk(false);
+        web.unusedBridge();
+        assertTrue(web.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotShowUnusedBridges(){
+        web0.spiderSit(2);
+        web0.spiderWalk(true);
+        web0.unusedBridge();
+        assertFalse(web0.ok());
+        
+        web.spiderSit(9);
+        web.unusedBridge();
+        assertFalse(web.ok());
         
     }
 } 
