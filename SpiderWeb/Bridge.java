@@ -84,4 +84,24 @@ public class Bridge
     public double getAngle(){
         return angle;
     }
+    
+    public double getxStart(){
+        return xStart;
+    
+    }
+    
+    public double getyStart(){
+        return yStart;
+    
+    }
+    
+    public double getxEnd(){
+        return xEnd;
+    
+    }
+    
+    public double getyEnd(){
+        return yEnd;
+    
+    }
 }

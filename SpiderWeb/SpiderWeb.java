@@ -343,15 +343,20 @@
     
     public void spiderSit(int strand){
         lastAction=false;
-        if (strand<=0 || strand>numStrands){ 
-            double angle=this.angle/numStrands;
+        if (strand>0 && strand<=numStrands){ 
+            spider.makeInvisible();
+            double angle=this.angle     /numStrands;
             double angle1 = Math.toRadians((strand-1)*angle);
         
             spider.returnToCenter();
             spider.locateSpider(angle1);
         
             spider.changeCurrentStrand(strand);
-            lastAction=true;
+            lastAction=true;    
+            
+            if(isVisible){
+                spider.makeVisible();
+            }
         
         }
     }
@@ -361,58 +366,92 @@
             double distance= spider.getDistanceToCenter();
             double angle= this.angle/numStrands;
             if (advance && distance==0){
-                    
-                for (Bridge b : mapBridge.values()){
-                    int strand=spider.getCurrentStrand();
-                    double angle1 = Math.toRadians((strand-1)*angle);
+                int cont=0;
+                while(cont<mapBridge.size()){  
+                    cont=0;
+                    for (Bridge b : mapBridge.values()){
                         
-                        if(b.getFirstStrand()==strand && b.getDistance()>distance){
-                            double angle2= b.getAngle();
-                            spider.moveSpider(angle1, b.getDistance() - distance);
-                            spider.locateSpider(angle2);
-                            spider.moveSpider(angle2, b.getLarge());
-                            distance = b.getDistance();
-                            if (strand!=numStrands){
-                                spider.changeCurrentStrand(strand+1);
-                            }
-                            else{
-                                spider.changeCurrentStrand(1);
-                            }
+                        int strand=spider.getCurrentStrand();
+                        double angle1 = Math.toRadians((strand-1)*angle);
+                            
+                            if((b.getFirstStrand()==strand || b.getSecondStrand()==strand) && b.getDistance()>distance ){
+                                spider.moveSpider(angle1, b.getDistance() - distance);
                                 
-                        }
+                                if (b.getFirstStrand()==strand){
+                                    
+                                    double newX= b.getxEnd();
+                                    double newY= b.getyEnd();
+                                    spider.transportSpider(Math.toRadians((strand)*angle),newX,newY);
+                                    spider.changeCurrentStrand(b.getSecondStrand());
+                
+                                }
+                                else{
+                                    double newX= b.getxStart();
+                                    double newY= b.getyStart();
+                                    spider.transportSpider(Math.toRadians((strand-2)*angle),newX,newY);
+                                    spider.changeCurrentStrand(b.getFirstStrand());
+                                    
+                                }
+                                
+                                distance = b.getDistance();
+                                break;
+                                    
+                            }
+                        cont++;
+                        
+                    }
                 }
                 
                 spider.locateSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle));
                 spider.moveSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle), (diameter/2) - distance);
                 spider.changeDistanceToCenter(diameter/2);
+                spider.locateSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle)+Math.PI);
                 lastAction=true;
                 
             }
             else if(!advance && distance == (diameter/2)){
-                
-                for (Bridge b : mapBridge.values()){
-                    int strand=spider.getCurrentStrand();
-                    double angle1 = Math.toRadians((strand-1)*angle);
-                    if(b.getFirstStrand()==strand && b.getDistance()<distance){
+                int cont=0;
+                while(cont<mapBridge.size()){  
+                    cont=0;
+                    for (Bridge b : mapBridge.values()){
                         
-                        double angle2 = Math.PI-(Math.asin((b.getDistance()*Math.sin(angle1+angle))/b.getLarge()));
-                        spider.moveSpider(angle1 + Math.PI, distance - b.getDistance());
-                        spider.moveSpider(angle2 + Math.PI, b.getLarge());
-                        angle1 = angle1 + angle;
-                        distance = b.getDistance();
-                        if (strand!=numStrands){
-                            spider.changeCurrentStrand(strand+1);
-                        }
-                        else{
-                            spider.changeCurrentStrand(1);
-                        }
+                        int strand=spider.getCurrentStrand();
+                        double angle1 = Math.toRadians((strand-1)*angle)+Math.PI;
                             
-                        }
+                            if((b.getFirstStrand()==strand || b.getSecondStrand()==strand) && b.getDistance()<distance ){
+                                spider.moveSpider(angle1, b.getDistance() - distance);
+                                
+                                if (b.getFirstStrand()==strand){
+                                    
+                                    double newX= b.getxEnd();
+                                    double newY= b.getyEnd();
+                                    spider.transportSpider(Math.toRadians((strand)*angle),newX,newY);
+                                    spider.changeCurrentStrand(b.getSecondStrand());
+                
+                                }
+                                else{
+                                    double newX= b.getxStart();
+                                    double newY= b.getyStart();
+                                    spider.transportSpider(Math.toRadians((strand-2)*angle),newX,newY);
+                                    spider.changeCurrentStrand(b.getFirstStrand());
+                                    
+                                }
+                                
+                                distance = b.getDistance();
+                                break;
+                                    
+                            }
+                        cont++;
+                        
                     }
-                    
-                spider.moveSpider(Math.toRadians((spider.getCurrentStrand()-1))*angle, -distance);
-                spider.changeDistanceToCenter(0);
+                }
+                
+                spider.locateSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle)+Math.PI);
+                spider.moveSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle)+Math.PI, distance);
+                spider.returnToCenter();
+                spider.locateSpider(Math.toRadians((spider.getCurrentStrand()-1)*angle));
                 lastAction=true;
+                
             }
             
         }

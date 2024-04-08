@@ -14,37 +14,20 @@ dependency4.type=UsesDependency
 dependency5.from=SpiderWeb
 dependency5.to=Bridge
 dependency5.type=UsesDependency
-<<<<<<< HEAD
-editor.fx.0.height=870
-editor.fx.0.width=779
-editor.fx.0.x=760
-editor.fx.0.y=0
-objectbench.height=109
-objectbench.width=741
+editor.fx.0.height=878
+editor.fx.0.width=1550
+editor.fx.0.x=-7
+editor.fx.0.y=-7
+objectbench.height=139
+objectbench.width=743
 package.divider.horizontal=0.6
-package.divider.vertical=0.8478712357217031
-package.editor.height=633
-package.editor.width=627
-package.editor.x=760
+package.divider.vertical=0.8089304257528558
+package.editor.height=603
+package.editor.width=629
+package.editor.x=0
 package.editor.y=0
 package.frame.height=870
 package.frame.width=780
-=======
-editor.fx.0.height=1048
-editor.fx.0.width=1936
-editor.fx.0.x=-321
-editor.fx.0.y=-1088
-objectbench.height=140
-objectbench.width=1270
-package.divider.horizontal=0.6
-package.divider.vertical=0.8479834539813857
-package.editor.height=813
-package.editor.width=1154
-package.editor.x=99
-package.editor.y=0
-package.frame.height=1067
-package.frame.width=1310
->>>>>>> 33375cc8c715182370850d45a60b83b5bd66012d
 package.numDependencies=5
 package.numTargets=7
 package.showExtends=true
@@ -59,13 +42,8 @@ target1.height=82
 target1.name=shapesXd
 target1.type=PackageTarget
 target1.width=120
-<<<<<<< HEAD
-target1.x=100
-target1.y=30
-=======
 target1.x=10
 target1.y=80
->>>>>>> 33375cc8c715182370850d45a60b83b5bd66012d
 target2.height=70
 target2.name=SpiderWeb
 target2.showInterface=false
@@ -92,13 +70,8 @@ target5.name=SpiderWebTest
 target5.showInterface=false
 target5.type=UnitTestTargetJunit4
 target5.width=120
-<<<<<<< HEAD
-target5.x=10
-target5.y=190
-=======
 target5.x=180
 target5.y=30
->>>>>>> 33375cc8c715182370850d45a60b83b5bd66012d
 target6.height=70
 target6.name=Strand
 target6.showInterface=false
