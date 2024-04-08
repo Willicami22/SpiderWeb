@@ -343,7 +343,7 @@
     
     public void spiderSit(int strand){
         lastAction=false;
-        if (strand<=0 || strand>numStrands){ 
+        if (strand>0 && strand<=numStrands){ 
             double angle=this.angle/numStrands;
             double angle1 = Math.toRadians((strand-1)*angle);
         

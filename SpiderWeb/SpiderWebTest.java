@@ -3,6 +3,8 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * The test class SpiderWebTest.
@@ -19,7 +21,7 @@ public class SpiderWebTest{
     public void before(){
         web = new SpiderWeb(10, 5, new int[][]{{100,2}, {200,5}});
         
-        web0 = new SpiderWeb(600, 10);
+        web0 = new SpiderWeb(60, 10);
     }
     
     @Test
@@ -155,4 +157,160 @@ public class SpiderWebTest{
         
     }
     
+    @Test
+    public void shouldAddSpot(){
+        web0.addSpot("green", 3);
+        assertTrue(web0.ok());
+        
+        web0.addSpot("red", 5);
+        assertTrue(web.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotAddSpot(){
+        web0.addSpot("green", -3);
+        assertFalse(web0.ok());
+        
+        web.addSpot("red", 5);
+        web.addSpot("red", 7);
+        assertFalse(web.ok());
+        
+        web.addSpot("yellow", 15);
+        assertFalse(web.ok());
+        
+    }
+    
+    @Test
+    public void shouldAddStrand(){
+        web.addStrand();
+        assertTrue(web.ok());
+        
+        web0.addStrand();
+        assertTrue(web0.ok());
+    }
+    
+    @Test
+    public void shouldEnlarge(){
+        web.enlarge(60);
+        assertTrue(web.ok());
+        
+        web0.enlarge(-10);
+        assertTrue(web0.ok());
+    }
+    
+    @Test
+    public void shouldRelocateBridge(){
+        web0.addBridge("blue", 100, 1);
+        web0.relocateBridge("blue", 7);
+        assertTrue(web0.ok());
+        
+        web0.addBridge("yellow", 200, 5);
+        web0.relocateBridge("yellow", 10);
+        assertTrue(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotRelocateBridge(){
+        web0.relocateBridge("red", 7);
+        assertFalse(web0.ok());
+        
+        web.relocateBridge("red", 150);
+        assertFalse(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldDelBridge(){
+        web0.addBridge("blue", 100, 7);
+        web0.delBridge("blue");
+        assertTrue(web0.ok());
+        
+        web.addBridge("red", 100, 7);
+        web.delBridge("red");
+        assertTrue(web.ok());
+    }
+    
+    @Test
+    public void shouldNotDelBridge(){
+        web0.delBridge("blue");
+        assertFalse(web0.ok());
+        
+        web0.delBridge("pink");
+        assertFalse(web0.ok());
+    }
+    
+    @Test
+    public void shouldDelSpot(){
+        web0.addSpot("blue", 7);
+        web0.delSpot("blue");
+        assertTrue(web0.ok());
+        
+        web.addSpot("red", 10);
+        web.delSpot("red");
+        assertTrue(web.ok());
+    }
+    
+    @Test
+    public void shouldNotDelSpot(){
+        web0.delSpot("blue");
+        assertFalse(web0.ok());
+        
+    }
+    
+    @Test
+    public void spiderShouldSit(){
+        web.spiderSit(7);
+        assertTrue(web.ok());
+        
+        web0.spiderSit(6);
+        assertTrue(web0.ok());
+        
+    }
+    
+    @Test
+    public void spiderShouldNotSit(){
+        web.spiderSit(-1);
+        assertFalse(web.ok());
+        
+        web0.spiderSit(15);
+        assertFalse(web0.ok());
+        
+    }
+    
+    @Test
+    public void shouldReturnBridgeKeys(){
+        web0.addBridge("red", 100, 7);
+        web0.addBridge("blue", 200, 6);
+        web0.bridges();
+        assertTrue(web0.ok());
+        
+        web.bridges();
+        assertTrue(web.ok());
+        
+    }
+    
+    @Test
+    public void shouldNotReturnBridgeKeys(){
+        web0.bridges();
+        assertFalse(web0.ok());
+        
+        SpiderWeb web1 = new SpiderWeb(70, 15);
+        web1.bridges();
+        assertFalse(web1.ok());
+        
+    }
+    
+    @Test
+    public void shouldReturnBridgeStrands(){
+        web.addBridge("pink", 200, 3);
+        web.bridge("pink");
+        assertTrue(web.ok());
+        
+        web0.addBridge("blue", 130, 6);
+        web0.bridge("blue");
+        assertTrue(web0.ok());
+        
+    }
 } 
