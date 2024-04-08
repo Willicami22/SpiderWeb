@@ -15,6 +15,7 @@ dependency5.from=SpiderWeb
 dependency5.to=Bridge
 dependency5.type=UsesDependency
 <<<<<<< HEAD
+<<<<<<< HEAD
 editor.fx.0.height=1039
 editor.fx.0.width=974
 editor.fx.0.x=-320
@@ -29,6 +30,22 @@ package.editor.x=640
 package.editor.y=0
 package.frame.height=523
 package.frame.width=974
+=======
+editor.fx.0.height=878
+editor.fx.0.width=1550
+editor.fx.0.x=-7
+editor.fx.0.y=-7
+objectbench.height=139
+objectbench.width=743
+package.divider.horizontal=0.6
+package.divider.vertical=0.8089304257528558
+package.editor.height=603
+package.editor.width=629
+package.editor.x=0
+package.editor.y=0
+package.frame.height=870
+package.frame.width=780
+>>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
 =======
 editor.fx.0.height=878
 editor.fx.0.width=1550

@@ -346,7 +346,12 @@
         if (strand>0 && strand<=numStrands){ 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             double angle=this.angle/numStrands;
+=======
+            spider.makeInvisible();
+            double angle=this.angle     /numStrands;
+>>>>>>> 37754b2cc5d3cce2d8e21dc7e86ad66f4555264e
 =======
             spider.makeInvisible();
             double angle=this.angle     /numStrands;
