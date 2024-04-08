@@ -8,7 +8,7 @@ import java.util.ArrayList;
     private Circle leftEye;
     private Circle rightEye;
     private boolean isVisible;
-    private ArrayList<Integer> lastPath;
+    
     private int currentStrand; 
     private double distanceToCenter;
     private double angle;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
     public Spider() {
         
         body = new Circle( 500,400,"black"); body.changeSize(30);
-        lastPath = new ArrayList<>();
         face = new Circle(505,385,"black"); face.changeSize(20);
         leftEye = new Circle(509,390,"red"); leftEye.changeSize(3);
         rightEye = new Circle(519,390,"red"); rightEye.changeSize(3);        
@@ -146,5 +145,10 @@ import java.util.ArrayList;
         body.changePosition(xPosition,yPosition);
         locateSpider(angle);
     }
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> 828779c520672b8322389ee28c8426531928fdb7
         
 } 
