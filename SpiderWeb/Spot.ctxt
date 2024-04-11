@@ -1,15 +1,19 @@
 #BlueJ class context
 comment0.target=Spot
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Spot\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ The\ `Spot`\ class\ represents\ a\ colored\ spot\ positioned\ on\ a\ specific\ strand\ of\ a\ spider\ web\ simulation.\r\n\ It\ is\ used\ to\ mark\ specific\ points\ on\ the\ web.\r\n\ This\ class\ provides\ methods\ to\ control\ the\ visibility\ and\ position\ of\ the\ spot.\r\n\ \r\n\ @author\ William\ Hernandez\ y\ Nicolas\ Toro\r\n\ @version\ 1.0\r\n
 comment1.params=x\ y\ strand\ color
 comment1.target=Spot(double,\ double,\ int,\ java.lang.String)
-comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Spot\r\n
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Spot\r\n\ \r\n\ @param\ x\ The\ x-coordinate\ of\ the\ spot\r\n\ @param\ y\ The\ y-coordinate\ of\ the\ spot\r\n\ @param\ strand\ The\ strand\ on\ which\ the\ spot\ is\ located\r\n\ @param\ color\ The\ color\ of\ the\ spot\r\n
 comment2.params=
 comment2.target=void\ makeVisible()
+comment2.text=\r\n\ Makes\ the\ spot\ visible.\r\n\ \r\n\ @param\ \ None\r\n\ @return\ Void\r\n
 comment3.params=
 comment3.target=void\ makeInvisible()
+comment3.text=\r\n\ Makes\ the\ spot\ invisible.\r\n\ \r\n\ @param\ \ None\r\n\ @return\ Void\r\n
 comment4.params=x\ y
 comment4.target=void\ changePosition(double,\ double)
+comment4.text=\r\n\ Changes\ the\ position\ of\ the\ spot.\r\n\ \r\n\ @param\ x\ The\ new\ x-coordinate\ of\ the\ spot\r\n\ @param\ y\ The\ new\ y-coordinate\ of\ the\ spot\r\n\ @return\ Void\r\n
 comment5.params=
 comment5.target=int\ getStrand()
+comment5.text=\r\n\ Gets\ the\ strand\ on\ which\ the\ spot\ is\ located.\r\n\ \r\n\ @param\ \ None\r\n\ @return\ The\ strand\ on\ which\ the\ spot\ is\ located\r\n
 numComments=6
