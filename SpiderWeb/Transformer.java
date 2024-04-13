@@ -8,14 +8,13 @@
 public class Transformer extends Bridge
 {
 
-
     /**
      * Constructor for objects of class Transformer
      */
     public Transformer(double xStart, double yStart, double xEnd, double yEnd, int firstStrand, int secondStrand, String color, double distance)
     {
         super( xStart, yStart, xEnd, yEnd, firstStrand, secondStrand,color, distance);
-
     }
     
+
 }

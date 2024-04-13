@@ -9,15 +9,15 @@ import shapesXd.*;
 public class Bridge {
     
     public Line body; 
-    private int firstStrand; 
-    private int secondStrand; 
-    private boolean isVisible;
+    protected int firstStrand; 
+    protected int secondStrand; 
+    protected boolean isVisible;
     private String color; 
     private double xStart; 
     private double yStart; 
     private double xEnd; 
     private double yEnd; 
-    private double distance; 
+    protected double distance; 
     private double length; 
     private double angle;
     

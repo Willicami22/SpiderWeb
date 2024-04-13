@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * Version: 1.0
  */
 public class SpiderWeb {
-    // Fields
+
     private final double angle = 360;
     private double diameter;
     private int numStrands;
@@ -119,7 +119,9 @@ public class SpiderWeb {
             for (Strand s : strands) {
                 s.makeVisible();
             }
-            spider.makeVisible();
+            if(spider.getIsAlive()){
+                spider.makeVisible();
+            }
             for (Spot s : mapSpots.values()) {
                 s.makeVisible();
             }
@@ -152,10 +154,10 @@ public class SpiderWeb {
             lastAction = true;
         }
     }
-
+    
  
     /**
-     * Adds a bridge between two consecutive strands of the spider web.
+     * Adds a bridge between two consecutive strands of the spider web. 
      *
      * This method creates a bridge, represented as a connection between two strands
      * at a specified distance from the center of the web. The bridge is added only if
@@ -228,7 +230,84 @@ public class SpiderWeb {
             lastAction = true;  
         }
     }
+    
+    public void addSpot(String type,String color, int favorite){
+        lastAction = false; 
+        
+        if (!mapSpots.containsKey(color) && favorite > 0 && favorite <= numStrands){
+            
+            double angle = this.angle / numStrands;
+            double angle1 = Math.toRadians((favorite - 1) * angle);
+        
+            double x = xCenter + (diameter / 2) * Math.cos(-angle1);
+            double y = yCenter + (diameter / 2) * Math.sin(-angle1);
+            
+            Spot spot;
+            if (type.equals("bouncy")){
+                spot = new Bouncy(x, y, favorite, color);
+            }
+            else if(type.equals("reverse")){
+                spot = new Reverse(x, y, favorite, color);
+            }
+            else if(type.equals("killer")){
+                spot = new Killer(x, y, favorite, color);
+            }
+            else{ 
+                spot = new Spot(x, y, favorite, color);
+            }
+            
+            mapSpots.put(color, spot);
+            
+            if (isVisible) {  
+                spot.makeVisible();
+            }
+            lastAction = true;  
+        }
+    }
+    
+    public void addBridge(String type,String color, int distance, int firstStrand){
+        lastAction = false;
+        if(!mapBridge.containsKey(color) && distance < (diameter / 2) && firstStrand > 0 && firstStrand <= numStrands){
+            double angle = this.angle / numStrands;
+            int secondStrand = firstStrand + 1;
+            if(firstStrand == numStrands){
+                secondStrand = 1;
+                }   
+            double angle1 = Math.toRadians((firstStrand - 1) * angle);
+            double angle2 = Math.toRadians((secondStrand - 1) * angle);
+                
+            double xStart = xCenter + (distance * Math.cos(-angle1));
+            double yStart = yCenter + (distance * Math.sin(-angle1));
+            double xEnd = xCenter + (distance * Math.cos(-angle2));
+            double yEnd = yCenter + (distance * Math.sin(-angle2));
+            Bridge bridge;
+            
+            if(type=="fixed"){
+                bridge = new Fixed(xStart, yStart, xEnd, yEnd, firstStrand, secondStrand, color, distance);
+            }
+            else if(type=="weak"){
+                bridge = new Weak(xStart, yStart, xEnd, yEnd, firstStrand, secondStrand, color, distance);
+            }
+            else if(type=="mobile"){
+                bridge = new Mobile(xStart, yStart, xEnd, yEnd, firstStrand, secondStrand, color, distance);
+            }
+            else if(type=="transformer"){
+                bridge = new Transformer(xStart, yStart, xEnd, yEnd, firstStrand, secondStrand, color, distance);
+            }
+            else{
+                bridge = new Bridge(xStart, yStart, xEnd, yEnd, firstStrand, secondStrand, color, distance);
+            }
+            
+            if(isVisible){
+                bridge.makeVisible();
+            }
+            mapBridge.put(color, bridge);
+            lastAction = true;
+        }
+    }
 
+
+    
         
     /**
      * Adds an additional strand to the spider web.
@@ -378,15 +457,33 @@ public class SpiderWeb {
      */
     public void delBridge(String color){
         lastAction = false;
-    
         if(mapBridge.containsKey(color)){
-            Bridge b = mapBridge.remove(color); 
-        
-            if(isVisible){
-                b.makeInvisible();
-            }
-            
+            Bridge b = mapBridge.get(color);
+            if(b  instanceof Transformer){
+                mapBridge.remove(color);
+                int firstStrand=b.getFirstStrand();
+                boolean thereIsSpot=false;
+                for(Spot s : mapSpots.values()){
+                    if(s.getStrand()==firstStrand){
+                        thereIsSpot=true;
+                    }
+                }
+                if(isVisible){
+                    b.makeInvisible();
+                }
+                
+                if (!thereIsSpot){
+                    addSpot(color,firstStrand);
+                }  
+                lastAction = true;
+                }
+            else if(!(b instanceof Fixed)){
+                mapBridge.remove(color);
+                if(isVisible){
+                    b.makeInvisible();
+                }
             lastAction = true;
+            }
         }
     }
     
@@ -431,7 +528,6 @@ public class SpiderWeb {
             spider.eraseLastPath(); 
             spider.makeInvisible();
             unusedBridge = new ArrayList<>(mapBridge.keySet());
-
             
             double angle = this.angle / numStrands;
             double angle1 = Math.toRadians((strand - 1) * angle);
@@ -480,11 +576,14 @@ public class SpiderWeb {
             spider.moveSpider(Math.toRadians((spider.getCurrentStrand() - 1) * angle), (diameter / 2) - distance);
             spider.changeDistanceToCenter(diameter / 2); 
             
+            comprobeSpot();
+            
             spider.locateSpider(Math.toRadians((spider.getCurrentStrand() - 1) * angle) + Math.PI);
+
             
             lastAction = true; 
         }
-        else if(!advance && distance == (diameter / 2) && spider.getCurrentStrand() != 0){
+        else if(!advance && distance == (diameter / 2) && spider.getCurrentStrand() != 0 && spider.getIsAlive()){
             moveSpider(advance);
             distance = spider.getDistanceToCenter(); 
             lastPath.add(spider.getCurrentStrand()); 
@@ -557,13 +656,54 @@ public class SpiderWeb {
                     }
                     distance = b.getDistance(); 
                     spider.changeDistanceToCenter(distance); 
+                    comprobeBridge(b);
                     break; 
                 }
                 cont++; 
             }
         }
     }
-
+    
+    private void comprobeBridge(Bridge bridge){
+        if (bridge instanceof Weak){
+            String color=bridge.getColor();
+            delBridge(color);
+        }
+        else if(bridge instanceof Mobile){
+            Mobile mobileBridge = (Mobile) bridge;
+            double distance=mobileBridge.getDistance();
+            if (((distance+50)<=(diameter/2)) && !(mobileBridge.getCrossed())){
+                mobileBridge.moved(numStrands);
+            }
+            
+        }
+    }
+    
+    private void comprobeSpot(){
+        int cont=0;
+        while(cont<mapSpots.size()){
+            int strand=spider.getCurrentStrand();
+            cont=0;
+            for (Spot s : mapSpots.values()){
+                cont+=1;
+                if (strand==s.getStrand() && (s instanceof Killer)){
+                    spider.death();
+                    break;
+                }
+                else if(strand==s.getStrand() && (s instanceof Bouncy)){
+                    spider.jump(numStrands);
+                    break;
+                }
+                else if(strand==s.getStrand() && (s instanceof Reverse)){
+                    spiderWalk(false);
+                    break;
+                }
+            }
+        
+        }
+    }
+    
+    
     /**
      * Retrieves the spider's last path as an array of integers.
      *
