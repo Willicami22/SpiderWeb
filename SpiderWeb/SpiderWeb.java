@@ -173,7 +173,8 @@ public class SpiderWeb {
      */
     public void addBridge(String color, int distance, int firstStrand){
         lastAction = false;
-        if(!mapBridge.containsKey(color) && distance < (diameter / 2) && firstStrand > 0 && firstStrand <= numStrands){
+        boolean comprobe = comprobeAddBridge(color,distance,firstStrand);
+        if(comprobe){
             double angle = this.angle / numStrands;
             
             int secondStrand = firstStrand + 1;
@@ -199,6 +200,37 @@ public class SpiderWeb {
         }
     }
     
+    private boolean comprobeAddBridge(String color, int distance, int firstStrand){
+        boolean comprobe=true;
+        int secondStrand = firstStrand + 1;
+        if(firstStrand == numStrands){
+            secondStrand = 1;
+        }
+        int previousStrand= firstStrand-1;
+        if(firstStrand == 1){
+            previousStrand  = numStrands;
+        }
+        if(mapBridge.containsKey(color) || distance > (diameter / 2) || distance<=0 || firstStrand <= 0 || firstStrand > numStrands){
+            comprobe=false;
+        }
+        
+        for(Bridge b : mapBridge.values()){
+            if(b.getFirstStrand()==firstStrand && b.getDistance()==distance){
+                comprobe=false;
+            }
+            
+            if(b.getFirstStrand()==previousStrand && b.getDistance()==distance){
+                comprobe=false;
+            }
+            
+            if(b.getFirstStrand()==secondStrand && b.getDistance()==distance){
+                comprobe=false;
+            }
+            
+        }
+        return comprobe;
+    }
+    
     /**
      * Adds a spot to the spider web at the specified strand.
      *
@@ -212,8 +244,8 @@ public class SpiderWeb {
      */
     public void addSpot(String color, int favorite){
         lastAction = false; 
-        
-        if (!mapSpots.containsKey(color) && favorite > 0 && favorite <= numStrands){
+        boolean comprobe=comprobeAddSpot(color,favorite); 
+        if (comprobe){
             
             double angle = this.angle / numStrands;
             double angle1 = Math.toRadians((favorite - 1) * angle);
@@ -231,10 +263,25 @@ public class SpiderWeb {
         }
     }
     
+    private boolean comprobeAddSpot(String color, int favorite){
+        boolean comprobe=true; 
+        if (mapSpots.containsKey(color) || favorite <= 0 || favorite > numStrands){
+            comprobe=false;
+        }
+        
+        for (Spot s : mapSpots.values()){
+            if(s.getStrand()==favorite){
+                comprobe=false;
+            }
+        }
+        
+        return comprobe;
+    }
+    
     public void addSpot(String type,String color, int favorite){
         lastAction = false; 
-        
-        if (!mapSpots.containsKey(color) && favorite > 0 && favorite <= numStrands){
+        boolean comprobe=comprobeAddSpot(color,favorite);
+        if (comprobe){
             
             double angle = this.angle / numStrands;
             double angle1 = Math.toRadians((favorite - 1) * angle);
@@ -267,7 +314,8 @@ public class SpiderWeb {
     
     public void addBridge(String type,String color, int distance, int firstStrand){
         lastAction = false;
-        if(!mapBridge.containsKey(color) && distance < (diameter / 2) && firstStrand > 0 && firstStrand <= numStrands){
+        boolean comprobe = comprobeAddBridge(color,distance,firstStrand);
+        if(comprobe){
             double angle = this.angle / numStrands;
             int secondStrand = firstStrand + 1;
             if(firstStrand == numStrands){
@@ -442,7 +490,7 @@ public class SpiderWeb {
                 bridge.makeVisible();
             }
             
-            lastAction = true; 
+            lastAction = true;  
         }
     }
 
@@ -482,7 +530,7 @@ public class SpiderWeb {
                 if(isVisible){
                     b.makeInvisible();
                 }
-            lastAction = true;
+                lastAction = true;
             }
         }
     }
@@ -576,10 +624,9 @@ public class SpiderWeb {
             spider.moveSpider(Math.toRadians((spider.getCurrentStrand() - 1) * angle), (diameter / 2) - distance);
             spider.changeDistanceToCenter(diameter / 2); 
             
-            comprobeSpot();
-            
             spider.locateSpider(Math.toRadians((spider.getCurrentStrand() - 1) * angle) + Math.PI);
 
+            comprobeSpot();
             
             lastAction = true; 
         }
@@ -609,60 +656,70 @@ public class SpiderWeb {
      *
      * @param advance A boolean value indicating whether the spider should advance (true) or retract (false).
      */
-    private void moveSpider(boolean advance){
-        int cont = 0;
-        double distance = spider.getDistanceToCenter();
-        double angle = this.angle / numStrands; 
-        
+    private void moveSpider(boolean advance) { 
+        double anglePerStrand = this.angle / numStrands;  
+        double angleAdjustment = advance ? 0 : Math.PI; 
+        int cont=0;
         lastPath = new ArrayList<>();
         unusedBridge = new ArrayList<>(mapBridge.keySet());
         spider.reestartLastPath(); 
         
-        while(cont < mapBridge.size()){  
-            cont = 0; 
-            for (Bridge b : mapBridge.values()){
-                double angle1 = 0; 
-                int strand = spider.getCurrentStrand(); 
-                boolean beforeBridge = false; 
+        while (cont==0){
+            Bridge closestBridge = null;
+            double minDistance = Double.MAX_VALUE; 
+            boolean beforeBridge = false;
+            int currentStrand = spider.getCurrentStrand(); 
+            double currentDistance = spider.getDistanceToCenter();
+            for (String s : unusedBridge) {
+                if (mapBridge.get(s).getFirstStrand() == currentStrand || mapBridge.get(s).getSecondStrand() == currentStrand) {
+                    double bridgeDistance = mapBridge.get(s).getDistance(); 
+                    if(advance){
+                        if(mapBridge.get(s).getDistance() > currentDistance){
+                            beforeBridge = true;
+                            if (Math.abs(bridgeDistance - currentDistance) < minDistance) {
+                                minDistance = Math.abs(bridgeDistance - currentDistance);
+                                closestBridge = mapBridge.get(s);
+                            }
+                        }
+                    }
+                    else if (!advance) {
+                        if(mapBridge.get(s).getDistance() < currentDistance){
+                            beforeBridge = true;
+                            if (Math.abs(bridgeDistance - currentDistance) < minDistance) {
+                                minDistance = Math.abs(bridgeDistance - currentDistance);
+                                closestBridge = mapBridge.get(s);
+                            }
+                        }
+                    } 
+                    
+                }
+            }
+            
+            if (closestBridge != null && beforeBridge) {
+                double angleToMove = Math.toRadians((currentStrand - 1) * anglePerStrand) + angleAdjustment;
+                spider.moveSpider(angleToMove, minDistance); 
+                lastPath.add(currentStrand);
+                unusedBridge.remove(String.valueOf(closestBridge.getColor()));
+        
+                if (closestBridge.getFirstStrand() == currentStrand) {
+                    spider.transportSpider(Math.toRadians(currentStrand * anglePerStrand)+angleAdjustment, closestBridge.getEndX(), closestBridge.getEndY());
+                    spider.changeCurrentStrand(closestBridge.getSecondStrand());
+                } else {
+                    spider.transportSpider(Math.toRadians((currentStrand - 2) * anglePerStrand)+angleAdjustment, closestBridge.getStartX(), closestBridge.getStartY());
+                    spider.changeCurrentStrand(closestBridge.getFirstStrand());
+                }
                 
-                if(advance){
-                    angle1 = Math.toRadians((strand - 1) * angle); 
-                    if(b.getDistance() > distance){
-                        beforeBridge = true;
-                    }
-                }
-                else if (!advance) {
-                    angle1 = Math.toRadians((strand - 1) * angle) + Math.PI; 
-                    if(b.getDistance() < distance){
-                        beforeBridge = true;
-                    }
-                }
+                spider.changeDistanceToCenter(closestBridge.getDistance()); 
                 
-                if((b.getFirstStrand() == strand || b.getSecondStrand() == strand) && beforeBridge){
-                    spider.moveSpider(angle1, Math.abs(b.getDistance() - distance));
-                    lastPath.add(strand); 
-                    unusedBridge.remove(String.valueOf(b.getColor())); 
-                    if (b.getFirstStrand() == strand){
-                        double newX = b.getEndX();
-                        double newY = b.getEndY(); 
-                        spider.transportSpider(Math.toRadians((strand) * angle), newX, newY); 
-                        spider.changeCurrentStrand(b.getSecondStrand()); 
-                    }
-                    else if(b.getSecondStrand() == strand){
-                        double newX = b.getStartX(); 
-                        double newY = b.getStartY(); 
-                        spider.transportSpider(Math.toRadians((strand - 2) * angle), newX, newY); 
-                        spider.changeCurrentStrand(b.getFirstStrand());  
-                    }
-                    distance = b.getDistance(); 
-                    spider.changeDistanceToCenter(distance); 
-                    comprobeBridge(b);
-                    break; 
-                }
-                cont++; 
+                comprobeBridge(closestBridge);
+            }
+            
+            else if(closestBridge==null){
+                cont=1;
             }
         }
     }
+
     
     private void comprobeBridge(Bridge bridge){
         if (bridge instanceof Weak){
@@ -674,8 +731,8 @@ public class SpiderWeb {
             double distance=mobileBridge.getDistance();
             if (((distance+50)<=(diameter/2)) && !(mobileBridge.getCrossed())){
                 mobileBridge.moved(numStrands);
+                unusedBridge.add(mobileBridge.getColor());
             }
-            
         }
     }
     
@@ -688,6 +745,7 @@ public class SpiderWeb {
                 cont+=1;
                 if (strand==s.getStrand() && (s instanceof Killer)){
                     spider.death();
+                    cont=mapSpots.size();
                     break;
                 }
                 else if(strand==s.getStrand() && (s instanceof Bouncy)){
@@ -696,6 +754,7 @@ public class SpiderWeb {
                 }
                 else if(strand==s.getStrand() && (s instanceof Reverse)){
                     spiderWalk(false);
+                    cont=mapSpots.size();
                     break;
                 }
             }

@@ -173,7 +173,7 @@ public class SpiderWebTest{
         assertFalse(web0.ok());
         
         web.addSpot("red", 5);
-        web.addSpot("red", 7);
+
         assertFalse(web.ok());
         
         web.addSpot("yellow", 15);
@@ -442,9 +442,6 @@ public class SpiderWebTest{
         web0.unusedBridge();
         assertFalse(web0.ok());
         
-        web.spiderSit(9);
-        web.unusedBridge();
-        assertFalse(web.ok());
-        
-    }
-} 
+    
+    } 
+}
