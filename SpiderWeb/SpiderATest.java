@@ -197,24 +197,55 @@ public class SpiderATest
         assertEquals(spiderweb.bridge("orange")[1],4);
         
         //Se vuelve a sentar en 4
-        spiderweb.spiderSit(4);
+        spiderweb.spiderSit(5);
         assertTrue(spiderweb.ok());
         
         //Se crea un puente en 4 transformer, se elimina para comprobar el spot
         
-        spiderweb.addBridge("transformer","red", 100, 4);
+        spiderweb.addBridge("transformer","red", 100, 5);
         assertTrue(spiderweb.ok());
         spiderweb.delBridge("red");
         assertEquals(spiderweb.spots().length,1);// Se comprueba que los spots no sean vacio
         
         //Se crea un puente en 4 fixed para comprobar que no se elimina
         
-        spiderweb.addBridge("fixed","blue", 200, 4);
+        spiderweb.addBridge("fixed","blue", 200, 5);
         assertTrue(spiderweb.ok());
         spiderweb.delBridge("blue");
         assertEquals(spiderweb.bridges().length,2);
         
+        //Se crea un spot bouncy en 6 y un reverse en 7
         
+        spiderweb.addSpot("bouncy","pink",6);
+        assertTrue(spiderweb.ok());
+        spiderweb.addSpot("reverse","orange",7);
+        assertTrue(spiderweb.ok());
+        
+        //Se hace caminar para comprobar su funcionamiento
+        spiderweb.spiderWalk(true);
+        assertTrue(spiderweb.ok());
+        
+        //Se sienta la araña en 8 y se agrega un spot killer en 8
+        spiderweb.spiderSit(8);
+        assertTrue(spiderweb.ok());
+        spiderweb.addSpot("killer","gray",8);
+        assertTrue(spiderweb.ok());
+
+        //Se hace caminar
+        
+        spiderweb.spiderWalk(true);
+        assertTrue(spiderweb.ok());
+
+        //Se intenta hacer caminar para atras pero falla porque esta muerta
+
+        spiderweb.spiderWalk(false);
+        assertFalse(spiderweb.ok());
+
+        //Se sienta para que resucite
+
+        spiderweb.spiderSit(8);
+        assertTrue(spiderweb.ok());
+
         //Se termina la simulacion
         spiderweb.finish();
         assertTrue(spiderweb.ok());

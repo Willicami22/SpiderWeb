@@ -742,7 +742,7 @@ public class SpiderWeb {
             int strand=spider.getCurrentStrand();
             cont=0;
             for (Spot s : mapSpots.values()){
-                cont+=1;
+            
                 if (strand==s.getStrand() && (s instanceof Killer)){
                     spider.death();
                     cont=mapSpots.size();
@@ -757,6 +757,7 @@ public class SpiderWeb {
                     cont=mapSpots.size();
                     break;
                 }
+                cont+=1;
             }
         
         }
