@@ -17,6 +17,7 @@ public class Spider {
     private int currentStrand;
     private double distanceToCenter; 
     private double angle; 
+    private boolean isAlive;
     /**
      * Constructor for objects of class Spider.
      */
@@ -34,6 +35,7 @@ public class Spider {
         currentStrand = 0;
         distanceToCenter = 0;
         angle = 90;
+        isAlive=true;
     }
     
     /**
@@ -63,7 +65,9 @@ public class Spider {
      */
     public void returnToCenter(){
         distanceToCenter = 0;
+        isAlive=true;
         body.changePosition(500, 400);
+        
     }
     
     /**
@@ -72,22 +76,21 @@ public class Spider {
      */
     public void locateSpider(double angle) {
 
-        double deltaX1 = leftEye.getX() - face.getX();
-        double deltaY1 = leftEye.getY() - face.getY();
-        double angle1 = Math.atan2(deltaY1, deltaX1) - Math.toRadians(this.angle) + angle; 
         
-        double deltaX2 = rightEye.getX() - face.getX();
-        double deltaY2 = rightEye.getY() - face.getY();
-        double angle2 = -Math.atan2(deltaY2, deltaX2) - Math.toRadians(this.angle) + angle; 
-        
-        double distance1 = Math.sqrt(181);
-        double distance2 = Math.sqrt(461);
+        double distance = Math.sqrt(461);
         
         this.angle = angle;
-        
         face.changePosition(body.getX() + (17 * Math.cos(angle)) + 5, body.getY() + (17 * -Math.sin(angle)) + 5); 
-        leftEye.changePosition(face.getX() + distance1 * Math.cos(angle1), face.getY() + distance1 * Math.sin(-angle1)); 
-        rightEye.changePosition(face.getX() + distance2 * Math.cos(angle2), face.getY() + distance2 * Math.sin(-angle2));
+        angle=Math.toDegrees(angle);
+        
+        double angle2=angle-15;
+        angle2=Math.toRadians(angle2);
+        
+        double angle1=angle+15;
+        angle1=Math.toRadians(angle1);
+        
+        leftEye.changePosition(body.getX() + (distance * Math.cos(angle1))+10, body.getY() + (distance * -Math.sin(angle1))+14); 
+        rightEye.changePosition(body.getX() + (distance * Math.cos(angle2))+10, body.getY() + (distance * -Math.sin(angle2))+14);
     }
     
     /**
@@ -197,5 +200,28 @@ public class Spider {
         for(Circle l : lastPath){
             l.makeInvisible();
         }
+    }
+    
+    public void death(){
+        isAlive=false;
+        makeInvisible();
+    }
+    
+    public boolean getIsAlive(){
+        return isAlive;
+    }
+    
+    public void jump(int numStrands){
+        currentStrand+=1;
+        if (currentStrand>numStrands){
+            currentStrand=1;
+        }
+        double angle=Math.toRadians(360/numStrands);
+        double angle1=angle*(currentStrand-1);
+        
+        double xNew = 500 + (distanceToCenter * Math.cos(-angle1));
+        double yNew = 400 + (distanceToCenter * Math.sin(-angle1));
+        
+        transportSpider(angle1,xNew,yNew);
     }
 } 
