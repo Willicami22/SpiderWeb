@@ -7,12 +7,12 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * The test class SpiderWebTest.
+ * The test class spiderwebC4test.
  *
  * @author  (William Hernandez and Nicolas Toro)
  * @version (a version number or a date)
  */
-public class SpiderWebTest{
+public class spiderwebC4test{
     
     private SpiderWeb web;
     private SpiderWeb web0;
